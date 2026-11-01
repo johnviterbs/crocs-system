@@ -1,0 +1,1513 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Crocodile Wallet - Premium Secure Portal</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Font Awesome Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=JetBrains+Mono:wght@400;700&display=swap" rel="stylesheet">
+    <!-- Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <!-- EmailJS SDK -->
+    <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #022c22; background-image: radial-gradient(circle at 50% 0%, #064e3b 0%, #022c22 100%); }
+        .font-mono-card { font-family: 'JetBrains Mono', monospace; }
+        ::-webkit-scrollbar { width: 8px; height: 8px; }
+        ::-webkit-scrollbar-track { background: #022c22; }
+        ::-webkit-scrollbar-thumb { background: #0f766e; border-radius: 4px; }
+        ::-webkit-scrollbar-thumb:hover { background: #0d9488; }
+        .scales-bg { background-image: radial-gradient(#115e59 1px, transparent 1px), radial-gradient(#115e59 1px, transparent 1px); background-size: 16px 16px; background-position: 0 0, 8px 8px; }
+        .avatar-img { object-fit: cover; }
+
+        /* LOGIN BACKGROUND ANIMATIONS */
+        @keyframes vault-float-left { 0% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.2; } 50% { transform: translateY(-30px) rotate(8deg) scale(1.1); opacity: 0.45; } 100% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.2; } }
+        @keyframes vault-float-right { 0% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.2; } 50% { transform: translateY(-40px) rotate(-10deg) scale(1.15); opacity: 0.5; } 100% { transform: translateY(0px) rotate(0deg) scale(1); opacity: 0.2; } }
+        @keyframes gold-sparkle { 0% { transform: translateY(-80px) scale(0.8); opacity: 0; } 50% { opacity: 0.8; } 100% { transform: translateY(140px) scale(1.2); opacity: 0; } }
+        .animate-vault-l { animation: vault-float-left 8s ease-in-out infinite; }
+        .animate-vault-r { animation: vault-float-right 10s ease-in-out infinite 2s; }
+        .animate-gold-1 { animation: gold-sparkle 4s linear infinite; }
+        .animate-gold-2 { animation: gold-sparkle 5.5s linear infinite 1.5s; }
+        .animate-gold-3 { animation: gold-sparkle 4.8s linear infinite 3s; }
+
+        /* DASHBOARD INSIDE ANIMATIONS */
+        @keyframes d-float-1 { 0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.15; } 50% { transform: translateY(-50px) rotate(15deg); opacity: 0.35; } }
+        @keyframes d-float-2 { 0%, 100% { transform: translateY(0) rotate(0deg) scale(1); opacity: 0.1; } 50% { transform: translateY(-80px) rotate(-20deg) scale(1.2); opacity: 0.25; } }
+        @keyframes d-float-3 { 0%, 100% { transform: translateY(0) rotate(0deg); opacity: 0.2; } 50% { transform: translateY(-40px) rotate(10deg); opacity: 0.4; } }
+        @keyframes d-pulse-slow { 0%, 100% { opacity: 0.05; transform: scale(1); } 50% { opacity: 0.15; transform: scale(1.05); } }
+        .dash-float-1 { animation: d-float-1 9s ease-in-out infinite; }
+        .dash-float-2 { animation: d-float-2 14s ease-in-out infinite; }
+        .dash-float-3 { animation: d-float-3 11s ease-in-out infinite; }
+        .dash-pulse-bg { animation: d-pulse-slow 8s ease-in-out infinite; }
+    </style>
+</head>
+<body class="text-emerald-100 min-h-screen flex flex-col justify-between overflow-x-hidden relative">
+
+    <!-- DASHBOARD INSIDE AMBIENT ANIMATIONS -->
+    <div id="dashboard-bg-anims" class="fixed inset-0 pointer-events-none z-0 hidden overflow-hidden">
+        <div class="absolute bottom-10 left-1/4 text-amber-500 text-7xl dash-float-1"><i class="fa-solid fa-coins"></i></div>
+        <div class="absolute top-1/4 right-1/4 text-teal-500 text-9xl dash-float-2"><i class="fa-solid fa-money-bill-wave"></i></div>
+        <div class="absolute top-20 right-1/2 text-amber-300 text-6xl dash-float-1" style="animation-delay: 2.5s;"><i class="fa-solid fa-sack-dollar"></i></div>
+    </div>
+
+    <!-- MAIN AUTHENTICATION SCREEN -->
+    <div id="auth-container" class="flex-grow flex items-center justify-center p-4 relative overflow-hidden min-h-[85vh] hidden">
+        <!-- LOGIN SLIDESHOW LAYER -->
+        <div class="absolute inset-0 pointer-events-none z-0 overflow-hidden">
+            <div class="absolute top-8 left-8 text-emerald-400/25 text-8xl animate-vault-l flex flex-col items-center">
+                <i class="fa-solid fa-vault"></i><span class="text-[10px] text-emerald-300/40 font-mono tracking-widest mt-1 uppercase font-bold">Croc Vault #1</span>
+            </div>
+            <div class="absolute bottom-10 right-10 text-amber-400/25 text-9xl animate-vault-r flex flex-col items-center">
+                <i class="fa-solid fa-piggy-bank"></i><span class="text-[10px] text-amber-300/40 font-mono tracking-widest mt-1 uppercase font-bold">Apex Treasury</span>
+            </div>
+            <div class="absolute top-10 left-1/3 text-amber-400/40 text-2xl animate-gold-1"><i class="fa-solid fa-coins"></i></div>
+        </div>
+
+        <div class="bg-emerald-950/90 border border-emerald-900 max-w-lg w-full rounded-2xl p-6 md:p-8 shadow-2xl relative overflow-hidden scales-bg z-10">
+            <div class="absolute -right-16 -top-16 w-36 h-36 bg-emerald-500/15 rounded-full blur-2xl"></div>
+            
+            <div class="text-center mb-6">
+                <div class="w-16 h-16 rounded-2xl bg-gradient-to-tr from-emerald-600 to-amber-500 flex items-center justify-center shadow-lg shadow-emerald-900/40 border border-emerald-400/30 mx-auto mb-3">
+                    <i class="fa-solid fa-wallet text-slate-900 text-3xl"></i>
+                </div>
+                <h1 class="text-3xl font-extrabold bg-gradient-to-r from-emerald-400 to-amber-300 bg-clip-text text-transparent">Crocodile Wallet</h1>
+                <p class="text-xs text-emerald-400/80 font-medium tracking-widest uppercase mt-1">Apex Web-Banking Platform</p>
+                <div class="inline-flex items-center gap-1.5 bg-emerald-900/50 px-2 py-0.5 rounded text-[9px] text-emerald-400 font-bold border border-emerald-800 mt-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                    <span id="auth-connection-status">Secure Connection Ready</span>
+                </div>
+            </div>
+
+            <!-- Switch Tab System -->
+            <div id="auth-tabs" class="flex bg-emerald-950 p-1 rounded-lg border border-emerald-900 text-xs mb-6">
+                <button onclick="window.toggleAuthMode('login')" id="tab-login" class="flex-1 py-2 text-center rounded-md font-bold transition duration-200 bg-emerald-500 text-slate-950">Sign In</button>
+                <button onclick="window.toggleAuthMode('register')" id="tab-register" class="flex-1 py-2 text-center rounded-md font-bold transition duration-200 text-emerald-400 hover:text-emerald-200">Create Account</button>
+            </div>
+
+            <!-- Login Form -->
+            <form id="login-form" onsubmit="window.handleLogin(event)" class="space-y-4">
+                <div>
+                    <label class="block text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1.5">Username or Gmail</label>
+                    <input type="text" id="login-user" required placeholder="Enter username or email..." class="w-full bg-emerald-900/40 border border-emerald-800 rounded-lg py-2 px-3 text-sm focus:outline-none focus:border-emerald-500 text-emerald-100 placeholder-emerald-700/60">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1.5">Password</label>
+                    <div class="relative">
+                        <input type="password" id="login-pass" required placeholder="••••••••" class="w-full bg-emerald-900/40 border border-emerald-800 rounded-lg py-2 pl-3 pr-10 text-sm focus:outline-none focus:border-emerald-500 text-emerald-100 placeholder-emerald-700/60">
+                        <button type="button" onclick="window.togglePasswordVisibility('login-pass', this)" class="absolute right-3 top-2.5 text-emerald-400 hover:text-emerald-200"><i class="fa-solid fa-eye"></i></button>
+                    </div>
+                </div>
+                
+                <div class="flex justify-end mt-1">
+                    <button type="button" onclick="window.openForgotPasswordModal()" class="text-[9px] text-emerald-400 hover:text-emerald-200 font-bold tracking-widest transition-colors"><i class="fa-solid fa-envelope-open-text"></i> Nakalimutan ang Password?</button>
+                </div>
+                
+                <button id="login-submit-btn" type="submit" class="w-full py-3 mt-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-extrabold text-xs rounded-xl uppercase tracking-wider transition duration-300 shadow-lg shadow-emerald-950">
+                    Access Portal <i class="fa-solid fa-unlock ml-1.5"></i>
+                </button>
+            </form>
+
+            <!-- Register Form -->
+            <form id="register-form" onsubmit="window.handleRegister(event)" class="space-y-4 hidden">
+                <div class="bg-emerald-900/20 border border-emerald-900/50 p-3 rounded-lg">
+                    <p class="text-[9px] font-extrabold text-amber-400 uppercase tracking-wider mb-2"><i class="fa-solid fa-shield-halved"></i> KYC Verification Details</p>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-3 mb-2">
+                        <div>
+                            <label class="block text-[9px] font-bold text-emerald-400 uppercase mb-1">Your Full Name</label>
+                            <input type="text" id="reg-name" required placeholder="e.g. Juan Dela Cruz" class="w-full bg-emerald-900/40 border border-emerald-800 rounded-lg py-1.5 px-3 text-xs focus:outline-none focus:border-emerald-500 text-emerald-100">
+                        </div>
+                        <div>
+                            <label class="block text-[9px] font-bold text-emerald-400 uppercase mb-1">Mobile Number (Format: 09171234567)</label>
+                            <input type="tel" id="reg-phone" required maxlength="11" placeholder="09171234567" class="w-full bg-emerald-900/40 border border-emerald-800 rounded-lg py-1.5 px-3 text-xs focus:outline-none focus:border-emerald-500 text-emerald-100">
+                        </div>
+                        <div class="md:col-span-2">
+                            <label class="block text-[9px] font-bold text-emerald-400 uppercase mb-1">Gmail Address</label>
+                            <input type="email" id="reg-email" required placeholder="username@gmail.com" class="w-full bg-emerald-900/40 border border-emerald-800 rounded-lg py-1.5 px-3 text-xs focus:outline-none focus:border-emerald-500 text-emerald-100">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="border-t border-emerald-900/60 pt-3 grid grid-cols-1 md:grid-cols-2 gap-3">
+                    <div class="md:col-span-2">
+                        <label class="block text-[9px] font-bold text-emerald-400 uppercase mb-1">Choose Username</label>
+                        <input type="text" id="reg-user" required placeholder="Select username..." class="w-full bg-emerald-900/40 border border-emerald-800 rounded-lg py-1.5 px-3 text-xs focus:outline-none focus:border-emerald-500 text-emerald-100">
+                    </div>
+                    <div>
+                        <label class="block text-[9px] font-bold text-emerald-400 uppercase mb-1">Create Password</label>
+                        <input type="password" id="reg-pass" required placeholder="••••••••" class="w-full bg-emerald-900/40 border border-emerald-800 rounded-lg py-1.5 px-3 text-xs focus:outline-none focus:border-emerald-500 text-emerald-100">
+                    </div>
+                    <div>
+                        <label class="block text-[9px] font-bold text-emerald-400 uppercase mb-1">Confirm Password</label>
+                        <input type="password" id="reg-pass-confirm" required placeholder="••••••••" class="w-full bg-emerald-900/40 border border-emerald-800 rounded-lg py-1.5 px-3 text-xs focus:outline-none focus:border-emerald-500 text-emerald-100">
+                    </div>
+                </div>
+
+                <button type="submit" class="w-full py-3 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-extrabold text-xs rounded-xl uppercase tracking-wider transition duration-300 shadow-lg">
+                    Verify & Initialize ₱1000.00 Ledger <i class="fa-solid fa-user-check ml-1.5"></i>
+                </button>
+            </form>
+
+            <!-- HIDDEN LINK TO NEW TAB ADMIN PORTAL -->
+            <div class="mt-6 text-center">
+                <a href="?admin=true" target="_blank" class="text-[10px] text-emerald-700 hover:text-emerald-400 font-bold tracking-widest transition-colors"><i class="fa-solid fa-server"></i> System Admin Portal (New Tab)</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- NEW SECURE FORGOT PASSWORD MODAL (WITH OTP & VALIDATION) -->
+    <div id="forgot-password-modal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-md hidden items-center justify-center z-[80] p-4">
+        <div class="bg-emerald-950 border border-emerald-800 max-w-sm w-full rounded-3xl p-6 shadow-2xl relative overflow-hidden">
+            <button onclick="window.closeForgotPasswordModal()" class="absolute top-4 right-4 text-emerald-400 hover:text-emerald-100 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            
+            <!-- STEP 1: ENTER EMAIL/USERNAME -->
+            <div id="fp-step-1">
+                <div class="text-center mb-4">
+                    <i class="fa-solid fa-envelope-open-text text-4xl text-emerald-500 mb-2"></i>
+                    <h3 class="font-black text-emerald-100 text-lg tracking-tight">Account Recovery</h3>
+                    <p class="text-[10px] text-emerald-400/80 mt-1">Ilagay ang iyong Username o nakarehistrong Gmail para makatanggap ng 6-digit verification code.</p>
+                </div>
+                <form onsubmit="window.sendRecoveryOTP(event)" class="space-y-4">
+                    <input type="text" id="recovery-input" required placeholder="Tunay na Username o Gmail..." class="w-full bg-emerald-900/50 border border-emerald-800 rounded-xl px-4 py-3 text-xs text-emerald-100 focus:outline-none focus:border-emerald-500">
+                    <button type="submit" id="btn-send-otp" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-black shadow-lg shadow-emerald-900/50 transition">Ipadala ang Code</button>
+                </form>
+            </div>
+
+            <!-- STEP 2: ENTER OTP -->
+            <div id="fp-step-2" class="hidden">
+                <div class="text-center mb-4">
+                    <i class="fa-solid fa-shield-halved text-4xl text-amber-500 mb-2"></i>
+                    <h3 class="font-black text-emerald-100 text-lg tracking-tight">Enter Security Code</h3>
+                    <p class="text-[10px] text-emerald-400/80 mt-1">I-check ang iyong email (<span id="masked-email-display" class="font-bold text-amber-400"></span>). Safe itong i-leave open habang chine-check mo ang inbox mo.</p>
+                </div>
+                <form onsubmit="window.verifyRecoveryOTP(event)" class="space-y-4">
+                    <input type="text" id="recovery-otp-input" required maxlength="6" placeholder="000000" class="w-full bg-emerald-900/80 border border-emerald-700 rounded-xl py-3 px-4 text-2xl font-mono text-center tracking-[0.5em] text-emerald-100 focus:outline-none focus:border-emerald-500">
+                    <button type="submit" class="w-full py-3 bg-amber-500 hover:bg-amber-400 text-slate-900 rounded-xl text-xs font-black shadow-lg transition">Verify Code</button>
+                    <button type="button" onclick="window.backToFpStep1()" class="w-full py-2 bg-transparent text-emerald-500 text-xs font-bold hover:text-emerald-300">Bumalik</button>
+                </form>
+            </div>
+
+            <!-- STEP 3: CREATE NEW PASSWORD (PINALITAN NA ITO) -->
+            <div id="fp-step-3" class="hidden">
+                <div class="text-center mb-4">
+                    <i class="fa-solid fa-key text-4xl text-emerald-500 mb-2"></i>
+                    <h3 class="font-black text-emerald-100 text-lg tracking-tight">Gumawa ng Bagong Password</h3>
+                    <p class="text-[10px] text-emerald-400/80 mt-1">Na-verify ang iyong account. Pwede mo nang palitan ang iyong password.</p>
+                </div>
+                <form onsubmit="window.saveNewPassword(event)" class="space-y-4">
+                    <div>
+                        <label class="block text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1.5">Bagong Password</label>
+                        <input type="password" id="reset-new-pass" required placeholder="••••••••" class="w-full bg-emerald-900/50 border border-emerald-800 rounded-xl py-2.5 px-4 text-sm focus:outline-none focus:border-emerald-500 text-emerald-100">
+                    </div>
+                    <div>
+                        <label class="block text-[10px] font-bold text-emerald-400 uppercase tracking-widest mb-1.5">Kumpirmahin ang Password</label>
+                        <input type="password" id="reset-confirm-pass" required placeholder="••••••••" class="w-full bg-emerald-900/50 border border-emerald-800 rounded-xl py-2.5 px-4 text-sm focus:outline-none focus:border-emerald-500 text-emerald-100">
+                    </div>
+                    <button type="submit" class="w-full py-3 bg-emerald-600 hover:bg-emerald-500 text-white rounded-xl text-xs font-black shadow-lg transition">I-save ang Bagong Password</button>
+                </form>
+            </div>
+            
+            <!-- LOADING STATE -->
+            <div id="fp-loading" class="hidden flex-col items-center justify-center py-6 text-center">
+                <i class="fa-solid fa-circle-notch fa-spin text-emerald-500 text-4xl mb-3"></i> 
+                <p class="text-xs text-emerald-400 font-bold animate-pulse">Kumokonekta sa secure server...</p>
+            </div>
+        </div>
+    </div>
+    
+    <!-- ADMIN LOGIN SCREEN (SHOWS ONLY IF ?admin=true IS IN URL) -->
+    <div id="admin-auth-container" class="flex-grow flex flex-col items-center justify-center p-4 relative overflow-hidden min-h-[85vh] hidden z-20">
+        <div class="bg-rose-950/90 border border-rose-900 max-w-sm w-full rounded-2xl p-8 shadow-[0_0_50px_rgba(225,29,72,0.2)] relative z-10 text-center">
+            <i class="fa-solid fa-shield-halved text-5xl text-rose-500 mb-4"></i>
+            <h1 class="text-2xl font-black text-white tracking-widest uppercase mb-1">Admin Gateway</h1>
+            <p class="text-[10px] text-rose-300 mb-6">Restricted System Access</p>
+            
+            <form onsubmit="window.handleAdminLogin(event)" class="space-y-4 text-left">
+                <div>
+                    <label class="block text-[10px] font-bold text-rose-400 uppercase tracking-widest mb-1.5">Admin Username</label>
+                    <input type="text" id="admin-login-user" required placeholder="admin username" class="w-full bg-rose-900/40 border border-rose-800 rounded-lg py-2.5 px-3 text-sm focus:outline-none focus:border-rose-500 text-white text-center">
+                </div>
+                <div>
+                    <label class="block text-[10px] font-bold text-rose-400 uppercase tracking-widest mb-1.5">Admin Passkey</label>
+                    <input type="password" id="admin-login-pass" required placeholder="••••••••" class="w-full bg-rose-900/40 border border-rose-800 rounded-lg py-2.5 px-3 text-sm focus:outline-none focus:border-rose-500 text-white text-center tracking-[0.5em]">
+                </div>
+                <button type="submit" class="w-full py-3 bg-rose-600 hover:bg-rose-500 text-white font-extrabold text-xs rounded-xl uppercase tracking-wider transition shadow-lg">
+                    Authenticate <i class="fa-solid fa-fingerprint ml-1.5"></i>
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- ADMIN DASHBOARD PANEL -->
+    <div id="admin-dashboard" class="flex-grow w-full max-w-7xl mx-auto p-4 md:p-6 hidden z-10 relative">
+        <div class="flex flex-col md:flex-row justify-between items-start md:items-center border-b border-rose-900 pb-4 mb-6 gap-4">
+            <div>
+                <h1 class="text-3xl font-black text-rose-500"><i class="fa-solid fa-user-tie"></i> System Administrator Portal</h1>
+                <p class="text-xs text-rose-400">Crocodile Wallet Global Overseer</p>
+            </div>
+            <div class="flex gap-2">
+                <button onclick="window.handleLogout()" class="bg-rose-900 hover:bg-rose-800 text-white px-4 py-2 rounded-lg font-bold transition text-xs shadow-lg">
+                    <i class="fa-solid fa-power-off"></i> Admin Sign Out
+                </button>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
+            <div class="bg-emerald-950/80 border border-emerald-800 p-5 rounded-xl shadow-xl">
+                <p class="text-xs text-emerald-400 uppercase tracking-widest font-bold mb-1">Total Users</p>
+                <p class="text-4xl font-black text-slate-100" id="admin-total-users">0</p>
+            </div>
+            <div class="bg-emerald-950/80 border border-emerald-800 p-5 rounded-xl shadow-xl">
+                <p class="text-xs text-teal-400 uppercase tracking-widest font-bold mb-1">Total Liquidity (₱)</p>
+                <p class="text-4xl font-black text-teal-400" id="admin-total-liquidity">₱0.00</p>
+            </div>
+        </div>
+
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+            <div class="bg-emerald-950/80 border border-emerald-900 rounded-xl shadow-xl flex flex-col h-[500px]">
+                <div class="p-4 bg-emerald-900/40 border-b border-emerald-900">
+                    <h3 class="font-bold text-emerald-100"><i class="fa-solid fa-users-gear text-emerald-400"></i> User Database</h3>
+                </div>
+                <div class="overflow-x-auto flex-grow">
+                    <table class="w-full text-left text-sm whitespace-nowrap">
+                        <thead class="bg-emerald-950 sticky top-0 text-xs uppercase text-emerald-500">
+                            <tr>
+                                <th class="px-4 py-3">User Data</th>
+                                <th class="px-4 py-3">Bank Bind</th>
+                                <th class="px-4 py-3 text-right">Balance</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-users-table" class="divide-y divide-emerald-900"></tbody>
+                    </table>
+                </div>
+            </div>
+
+            <div class="bg-emerald-950/80 border border-emerald-900 rounded-xl shadow-xl flex flex-col h-[500px]">
+                <div class="p-4 bg-emerald-900/40 border-b border-emerald-900">
+                    <h3 class="font-bold text-amber-300"><i class="fa-solid fa-receipt"></i> Global Transaction Receipts</h3>
+                </div>
+                <div class="overflow-x-auto flex-grow">
+                    <table class="w-full text-left text-sm whitespace-nowrap">
+                        <thead class="bg-emerald-950 sticky top-0 text-xs uppercase text-amber-600">
+                            <tr>
+                                <th class="px-4 py-3">User</th>
+                                <th class="px-4 py-3">Transaction Detail</th>
+                                <th class="px-4 py-3 text-right">Amount</th>
+                            </tr>
+                        </thead>
+                        <tbody id="admin-ledger-table" class="divide-y divide-emerald-900"></tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- PROFILE DETAILS MODAL -->
+    <div id="profile-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-emerald-950 border border-emerald-900 max-w-md w-full rounded-2xl p-6 shadow-2xl relative max-h-[90vh] overflow-y-auto scales-bg">
+            <button onclick="window.closeProfileModal()" class="absolute top-4 right-4 text-emerald-400 hover:text-emerald-100 text-lg"><i class="fa-solid fa-xmark"></i></button>
+            <div class="text-center mb-4">
+                <div class="relative w-24 h-24 mx-auto mb-3 group">
+                    <img id="profile-avatar-large" src="" class="w-24 h-24 rounded-full border-4 border-emerald-500/50 shadow-lg avatar-img bg-emerald-900">
+                    <label for="avatar-upload" class="absolute inset-0 bg-slate-900/70 rounded-full flex items-center justify-center opacity-0 group-hover:opacity-100 cursor-pointer transition-opacity">
+                        <i class="fa-solid fa-camera text-white text-2xl"></i>
+                    </label>
+                    <input type="file" id="avatar-upload" accept="image/*" onchange="window.handleAvatarUpload(event)" class="hidden">
+                </div>
+                <h3 class="font-bold text-xl text-emerald-100" id="profile-name">Verified Name</h3>
+                <p class="text-[10px] text-amber-400 uppercase tracking-widest font-bold">Verified Crocodile Member</p>
+            </div>
+            
+            <div class="space-y-3 text-xs border-t border-emerald-900/60 pt-4 text-emerald-300">
+                <div class="flex justify-between border-b border-emerald-900/30 pb-2">
+                    <span class="text-emerald-500 font-semibold">Username:</span><span id="profile-username" class="font-mono text-slate-200"></span>
+                </div>
+                <div class="flex justify-between border-b border-emerald-900/30 pb-2">
+                    <span class="text-emerald-500 font-semibold">Gmail Address:</span><span id="profile-email" class="font-mono text-slate-200"></span>
+                </div>
+                <div class="flex justify-between border-b border-emerald-900/30 pb-2">
+                    <span class="text-emerald-500 font-semibold">Registered Mobile:</span><span id="profile-phone" class="font-mono text-slate-200"></span>
+                </div>
+            </div>
+
+            <!-- BANK BINDING SECTION -->
+            <div class="mt-5 border border-emerald-800 rounded-xl bg-emerald-900/20 p-4">
+                <h4 class="text-xs font-bold text-emerald-400 uppercase tracking-widest mb-3 flex items-center gap-2"><i class="fa-solid fa-link"></i> Linked Financial Account</h4>
+                <div id="bank-unbound-ui" class="text-center py-2 hidden">
+                    <p class="text-[10px] text-slate-400 mb-3">No real bank account linked yet. Bind an account to enable Cash-In via Payment Gateway.</p>
+                    <button onclick="window.openBindModal()" class="w-full py-2 bg-emerald-600 hover:bg-emerald-500 text-white text-xs font-bold rounded-lg transition shadow-lg">Link a Bank Account / E-Wallet</button>
+                </div>
+                <div id="bank-bound-ui" class="hidden">
+                    <div class="flex justify-between items-center bg-emerald-950 p-3 rounded-lg border border-emerald-700/50">
+                        <div class="flex items-center gap-3">
+                            <div class="text-2xl text-amber-400"><i class="fa-solid fa-building-columns"></i></div>
+                            <div>
+                                <p class="text-xs font-bold text-slate-100" id="bound-provider-name">GCash</p>
+                                <p class="text-[10px] font-mono text-emerald-400" id="bound-account-number">0917***1234</p>
+                            </div>
+                        </div>
+                        <button onclick="window.unbindBank()" class="text-[10px] bg-rose-900/50 hover:bg-rose-800 text-rose-300 px-3 py-1.5 rounded border border-rose-900 transition">Unbind</button>
+                    </div>
+                </div>
+            </div>
+            <div class="flex justify-end mt-5">
+                <button onclick="window.closeProfileModal()" class="px-4 py-2 bg-emerald-900/50 hover:bg-emerald-900 text-emerald-300 rounded-lg text-xs font-bold transition">Close Profile</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- BIND BANK MODAL (STEP 1: DETAILS) -->
+    <div id="bind-bank-modal" class="fixed inset-0 bg-slate-950/90 backdrop-blur-md hidden items-center justify-center z-[60] p-4">
+        <div class="bg-emerald-950 border border-emerald-800 max-w-sm w-full rounded-2xl p-6 shadow-2xl">
+            <h3 class="font-bold text-emerald-100 text-sm mb-4"><i class="fa-solid fa-link text-emerald-400"></i> Link Payment Method</h3>
+            <form id="bind-bank-form" onsubmit="window.startBindOTP(event)" class="space-y-3">
+                <div>
+                    <label class="block text-[10px] text-emerald-500 font-bold uppercase mb-1">Provider</label>
+                    <select id="bind-provider" class="w-full bg-emerald-900/50 border border-emerald-800 rounded px-3 py-2 text-xs text-emerald-100 focus:outline-none">
+                        <option value="GCash">GCash</option><option value="Maya">Maya</option><option value="BPI">BPI</option><option value="UnionBank">UnionBank</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-[10px] text-emerald-500 font-bold uppercase mb-1">Account Number</label>
+                    <input type="text" id="bind-account" required placeholder="e.g. 09171234567" class="w-full bg-emerald-900/50 border border-emerald-800 rounded px-3 py-2 text-xs text-emerald-100 focus:outline-none">
+                </div>
+                <div class="flex gap-2 mt-4">
+                    <button type="button" onclick="window.closeBindModal()" class="w-1/3 py-2 bg-emerald-900/60 text-emerald-300 rounded-lg text-xs font-bold">Cancel</button>
+                    <button type="submit" class="w-2/3 py-2 bg-amber-500 hover:bg-amber-400 text-slate-900 rounded-lg text-xs font-black shadow-lg">Proceed</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- PAYMENT GATEWAY PORTAL SIMULATION -->
+    <div id="payment-portal-modal" class="fixed inset-0 bg-slate-950/95 backdrop-blur-lg hidden items-center justify-center z-[70] p-4">
+        <div class="bg-white max-w-sm w-full rounded-3xl p-6 shadow-[0_0_50px_rgba(16,185,129,0.2)] text-slate-800 relative overflow-hidden">
+            <div class="absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 via-emerald-500 to-emerald-700" id="gateway-color-bar"></div>
+            <div class="text-center mb-6 mt-2">
+                <h2 class="text-xl font-black text-slate-800 tracking-tight" id="gateway-title">Secure Checkout</h2>
+                <p class="text-[10px] text-slate-500 font-bold">MockGateway™ Server</p>
+            </div>
+            <div class="bg-slate-50 border border-slate-200 rounded-xl p-4 mb-5 text-center">
+                <p class="text-[10px] uppercase font-bold text-slate-400 tracking-wider mb-1">Amount to Pay</p>
+                <p class="text-4xl font-black text-slate-800" id="gateway-amount">₱0.00</p>
+                <div class="mt-3 inline-flex items-center gap-2 bg-blue-100 text-blue-800 px-3 py-1 rounded-full text-[10px] font-bold" id="gateway-provider-badge">
+                    <i class="fa-solid fa-wallet"></i> <span id="gateway-provider-text">GCash</span>
+                </div>
+            </div>
+            <div class="space-y-3 text-xs mb-6 px-2">
+                <div class="flex justify-between border-b border-slate-200 pb-2"><span class="text-slate-500">Merchant</span><span class="font-bold">Crocodile Wallet Portal</span></div>
+                <div class="flex justify-between border-b border-slate-200 pb-2"><span class="text-slate-500">Account Source</span><span class="font-mono font-bold text-slate-700" id="gateway-source-account">0917***1234</span></div>
+            </div>
+            <div id="gateway-loading-ui" class="hidden flex-col items-center justify-center py-4">
+                <i class="fa-solid fa-circle-notch fa-spin text-3xl text-emerald-500 mb-3"></i><p class="text-xs font-bold text-slate-600 animate-pulse">Processing Payment with Bank...</p>
+            </div>
+            <div id="gateway-actions" class="flex gap-2">
+                <button onclick="window.cancelPaymentGateway()" class="w-1/3 py-3 bg-slate-200 hover:bg-slate-300 text-slate-600 rounded-xl text-xs font-bold transition">Cancel</button>
+                <button onclick="window.authorizePaymentGateway()" class="w-2/3 py-3 bg-emerald-500 hover:bg-emerald-600 text-white rounded-xl text-xs font-black transition shadow-lg shadow-emerald-500/30">Authorize Payment</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- PURGE CONFIRMATION MODAL -->
+    <div id="purge-confirm-modal" class="fixed inset-0 bg-slate-950/85 backdrop-blur-sm hidden items-center justify-center z-50 p-4">
+        <div class="bg-emerald-950 border border-emerald-900 max-w-xs w-full rounded-2xl p-6 shadow-2xl text-center">
+            <div class="text-rose-500 text-4xl mb-3"><i class="fa-solid fa-triangle-exclamation"></i></div>
+            <h4 class="font-bold text-emerald-100 text-sm mb-2">Purge Transaction Ledger?</h4>
+            <p class="text-[11px] text-emerald-400/80 mb-4">This will reset your ledger to ₱0.00. This action is irreversible.</p>
+            <div class="flex gap-2 justify-center">
+                <button onclick="window.closePurgeModal()" class="px-3 py-1.5 bg-emerald-900/60 text-emerald-300 rounded-lg text-xs font-bold">Cancel</button>
+                <button onclick="window.executePurgeHistory()" class="px-3 py-1.5 bg-rose-600 hover:bg-rose-500 text-white rounded-lg text-xs font-bold transition">Reset Ledger</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- DESKTOP DASHBOARD HEADER -->
+    <nav id="app-nav" class="border-b border-emerald-900 bg-emerald-950/80 backdrop-blur-md sticky top-0 z-40 px-6 py-4 hidden">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-4">
+            <div class="flex items-center gap-3">
+                <div class="w-12 h-12 rounded-xl bg-gradient-to-tr from-emerald-600 to-amber-500 flex items-center justify-center shadow-lg shadow-emerald-900/40 border border-emerald-400/30">
+                    <i class="fa-solid fa-wallet text-slate-900 text-xl"></i>
+                </div>
+                <div>
+                    <h1 class="text-2xl font-extrabold tracking-tight bg-gradient-to-r from-emerald-400 to-amber-300 bg-clip-text text-transparent">Crocodile Wallet</h1>
+                    <p class="text-[10px] text-amber-400/80 font-medium tracking-widest uppercase">Apex Web-Banking Platform</p>
+                </div>
+            </div>
+            <div class="flex flex-wrap items-center gap-4 text-sm bg-emerald-950/90 px-4 py-2 rounded-xl border border-emerald-800">
+                <div class="flex items-center gap-2 border-l border-emerald-800 pl-4">
+                    <img id="nav-avatar" src="" class="w-6 h-6 rounded-full border border-emerald-500 avatar-img">
+                    <span class="text-xs text-slate-300 font-bold" id="user-display-name">User</span>
+                    <button onclick="window.openProfileModal()" class="hover:text-amber-300 transition-colors p-1.5 bg-emerald-900/40 rounded-lg flex items-center gap-1.5 ml-2" title="View Profile Details">
+                        <i class="fa-solid fa-circle-user text-emerald-400"></i> <span class="hidden sm:inline text-xs font-bold">My Profile</span>
+                    </button>
+                    <button onclick="window.handleLogout()" class="hover:text-rose-400 transition-colors p-1.5 bg-rose-950/30 text-rose-300 border border-rose-900/40 rounded-lg ml-2" title="Sign Out">
+                        <i class="fa-solid fa-power-off"></i> <span class="hidden sm:inline text-xs ml-1 font-bold">Sign Out</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN WEB INTERFACE -->
+    <main id="app-container" class="flex-grow max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6 hidden z-10 relative">
+
+        <!-- LEFT COLUMN: SIDEBAR -->
+        <aside id="dashboard-sidebar" class="col-span-1 lg:col-span-4 flex flex-col gap-6">
+            
+            <div id="swamp-balance-hub" class="rounded-2xl p-6 border border-emerald-800 bg-gradient-to-br from-emerald-950 via-slate-900 to-emerald-950 shadow-2xl relative overflow-hidden group scales-bg">
+                <div class="flex justify-between items-start mb-6">
+                    <div>
+                        <p class="text-[10px] text-amber-400 uppercase tracking-widest font-bold">Swamp Security Asset Channel</p>
+                        <p class="text-xs text-emerald-400" id="wallet-name-label">Active Wallet</p>
+                    </div>
+                    <div class="flex items-center gap-1.5 bg-emerald-900/40 px-2.5 py-1 rounded-full border border-emerald-700/40">
+                        <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-ping"></span><span class="text-[9px] font-extrabold tracking-widest uppercase text-emerald-300">Live Secure</span>
+                    </div>
+                </div>
+                <div class="mb-4">
+                    <div class="flex items-center gap-1.5 text-emerald-400/80 text-[9px] font-bold tracking-wider mb-1">
+                        <span>AVAILABLE LIQUID BALANCE</span>
+                        <span onclick="window.toggleCardBalanceVisibility();" class="hover:text-amber-300 cursor-pointer p-1"><i class="fa-solid fa-eye text-emerald-400" id="toggle-balance-eye"></i></span>
+                    </div>
+                    <div class="text-4xl font-extrabold tracking-tight text-slate-100 flex items-center" id="card-balance-display">₱0.00</div>
+                </div>
+            </div>
+
+            <!-- QUICK LIQUIDITY MOVEMENT -->
+            <div class="rounded-2xl border border-emerald-900 bg-emerald-950/70 backdrop-blur-md p-5 shadow-xl">
+                <h3 class="font-bold text-md text-emerald-100 mb-3 flex items-center gap-2"><i class="fa-solid fa-paper-plane text-amber-400"></i><span>Liquid Asset Transfers</span></h3>
+                <p class="text-xs text-emerald-400/80 mb-4">Top-up via Gateway or Send digital fiat instantly to members.</p>
+
+                <div class="space-y-3">
+                    <div class="grid grid-cols-2 gap-1 bg-emerald-950 p-1 rounded-xl border border-emerald-900/40">
+                        <button onclick="window.setQuickTransferUI('topup')" id="transfer-mode-topup" class="py-1.5 text-center bg-emerald-950 text-emerald-500 text-[10px] sm:text-xs rounded-lg font-semibold flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-circle-arrow-up"></i> Cash-In (Gateway)
+                        </button>
+                        <button onclick="window.setQuickTransferUI('send')" id="transfer-mode-send" class="py-1.5 text-center bg-emerald-600/10 border border-emerald-500/40 text-emerald-300 text-[10px] sm:text-xs rounded-lg font-semibold flex items-center justify-center gap-1">
+                            <i class="fa-solid fa-arrow-up-right-from-square"></i> Send P2P
+                        </button>
+                    </div>
+
+                    <div class="bg-emerald-950/80 p-3 rounded-xl border border-emerald-900 space-y-2.5">
+                        <div class="flex justify-between items-center text-[10px] text-emerald-400">
+                            <span id="quick-action-label">Recipient Username</span><span id="quick-action-type" class="uppercase text-emerald-400 font-bold">Sending</span>
+                        </div>
+                        <div id="recipient-input-container">
+                            <input type="text" id="quick-recipient" placeholder="Enter username..." class="w-full bg-emerald-900/50 border border-emerald-800 rounded px-2.5 py-1.5 text-xs text-emerald-100 focus:outline-none focus:border-emerald-500">
+                        </div>
+                        <div class="grid grid-cols-2 gap-2">
+                            <div>
+                                <label class="text-[9px] text-emerald-500 block mb-0.5">Amount (₱)</label>
+                                <input type="number" step="0.01" id="quick-amount" placeholder="0.00" class="w-full bg-emerald-900/50 border border-emerald-800 rounded px-2.5 py-1.5 text-xs text-emerald-100 focus:outline-none focus:border-emerald-500">
+                            </div>
+                            <div>
+                                <label class="text-[9px] text-emerald-500 block mb-0.5">Category</label>
+                                <select id="quick-category" class="w-full bg-emerald-900/50 border border-emerald-800 rounded px-2.5 py-1.5 text-xs text-emerald-100 focus:outline-none focus:border-emerald-500"></select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <p class="text-[8px] text-emerald-500 uppercase tracking-wider mb-1 font-bold">Quick Amounts</p>
+                            <div class="grid grid-cols-4 gap-1">
+                                <button type="button" onclick="window.setQuickAmountPreset(100)" class="py-1 text-center bg-emerald-900/40 hover:bg-emerald-800 border border-emerald-800 text-[10px] text-emerald-300 font-semibold rounded-md">₱100</button>
+                                <button type="button" onclick="window.setQuickAmountPreset(500)" class="py-1 text-center bg-emerald-900/40 hover:bg-emerald-800 border border-emerald-800 text-[10px] text-emerald-300 font-semibold rounded-md">₱500</button>
+                                <button type="button" onclick="window.setQuickAmountPreset(1000)" class="py-1 text-center bg-emerald-900/40 hover:bg-emerald-800 border border-emerald-800 text-[10px] text-emerald-300 font-semibold rounded-md">₱1K</button>
+                                <button type="button" onclick="window.setQuickAmountPreset(5000)" class="py-1 text-center bg-emerald-900/40 hover:bg-emerald-800 border border-emerald-800 text-[10px] text-emerald-300 font-semibold rounded-md">₱5K</button>
+                            </div>
+                        </div>
+
+                        <button onclick="window.executeTransactionFlow()" id="btn-execute-tx" class="w-full py-2 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-500 hover:to-teal-500 text-slate-100 font-bold text-xs rounded-lg transition shadow-lg">
+                            Proceed to Payment Portal
+                        </button>
+                    </div>
+                </div>
+            </div>
+
+            <!-- MEMBERS DIRECTORY -->
+            <div class="rounded-2xl border border-emerald-900 bg-emerald-950/70 backdrop-blur-md p-5 shadow-xl">
+                <div class="flex items-center gap-2 mb-2"><i class="fa-solid fa-users text-amber-400"></i><h4 class="font-bold text-xs text-slate-200">Crocodile Members Directory</h4></div>
+                <p class="text-[10px] text-emerald-400/80 mb-3">Copy Username to test real-time P2P transactions!</p>
+                <div id="members-directory-list" class="space-y-1.5 max-h-40 overflow-y-auto pr-1"></div>
+            </div>
+
+        </aside>
+
+        <!-- RIGHT COLUMN: MAIN METRICS AND CONTENT -->
+        <section id="dashboard-main" class="col-span-1 lg:col-span-8 flex flex-col gap-6">
+            
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+                <div class="bg-emerald-950/70 backdrop-blur-md border border-emerald-900 p-4 rounded-xl relative overflow-hidden">
+                    <span class="text-[10px] text-emerald-400 uppercase tracking-wider font-semibold block mb-0.5">Net Worth Pool</span>
+                    <span class="text-xl font-bold text-slate-100" id="stat-balance">₱0.00</span>
+                    <span class="text-[9px] text-emerald-500 block mt-0.5">Solvent Reserve</span>
+                    <div class="absolute right-3 bottom-3 text-emerald-500/10 text-3xl"><i class="fa-solid fa-coins"></i></div>
+                </div>
+                <div class="bg-emerald-950/70 backdrop-blur-md border border-emerald-900 p-4 rounded-xl relative overflow-hidden">
+                    <span class="text-[10px] text-teal-400 uppercase tracking-wider font-semibold block mb-0.5">Total Inflows</span>
+                    <span class="text-xl font-bold text-teal-400" id="stat-income">₱0.00</span>
+                    <span class="text-[9px] text-emerald-500 block mt-0.5">Total deposits</span>
+                    <div class="absolute right-3 bottom-3 text-teal-500/10 text-3xl"><i class="fa-solid fa-circle-arrow-up"></i></div>
+                </div>
+                <div class="bg-emerald-950/70 backdrop-blur-md border border-emerald-900 p-4 rounded-xl relative overflow-hidden">
+                    <span class="text-[10px] text-amber-500 uppercase tracking-wider font-semibold block mb-0.5">Total Outflows</span>
+                    <span class="text-xl font-bold text-amber-400" id="stat-expenses">₱0.00</span>
+                    <span class="text-[9px] text-emerald-500 block mt-0.5">Transactions out</span>
+                    <div class="absolute right-3 bottom-3 text-amber-500/10 text-3xl"><i class="fa-solid fa-circle-arrow-down"></i></div>
+                </div>
+                <div class="bg-emerald-950/70 backdrop-blur-md border border-emerald-900 p-4 rounded-xl relative overflow-hidden">
+                    <span class="text-[10px] text-emerald-300 uppercase tracking-wider font-semibold block mb-0.5">Retention Rate</span>
+                    <span class="text-xl font-bold text-emerald-300" id="stat-savings-rate">0.0%</span>
+                    <span class="text-[9px] text-emerald-500 block mt-0.5">Locked-in capital</span>
+                    <div class="absolute right-3 bottom-3 text-emerald-500/10 text-3xl"><i class="fa-solid fa-shield-halved"></i></div>
+                </div>
+            </div>
+
+            <!-- SPEND TREND CHART -->
+            <div class="bg-emerald-950/70 backdrop-blur-md border border-emerald-900 p-5 rounded-2xl flex flex-col justify-between">
+                <div class="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-4">
+                    <div>
+                        <h4 class="font-bold text-emerald-100 flex items-center gap-2"><i class="fa-solid fa-chart-line text-amber-400"></i><span>Apex Spending Velocity Tracker</span></h4>
+                        <p class="text-xs text-emerald-400/70 mt-0.5">Time-based data compression for expenditure visualization</p>
+                    </div>
+                </div>
+                <div class="h-64 mt-2"><canvas id="spendTrendLineChart"></canvas></div>
+            </div>
+
+            <!-- LEDGER TABLE -->
+            <div class="bg-emerald-950/70 backdrop-blur-md border border-emerald-900 rounded-2xl overflow-hidden flex flex-col">
+                <div class="p-5 border-b border-emerald-900 flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+                    <div>
+                        <h4 class="font-bold text-emerald-100 flex items-center gap-2"><i class="fa-solid fa-receipt text-amber-500"></i><span>Comprehensive Ledger Logs</span></h4>
+                        <p class="text-xs text-emerald-400/80">Real-time dynamic statement auditing system</p>
+                    </div>
+                    <div class="flex flex-wrap items-center gap-2 w-full md:w-auto">
+                        <input type="text" id="filter-search" oninput="window.renderApp()" placeholder="Search description..." class="bg-emerald-950/80 border border-emerald-900 text-xs px-3 py-2 rounded-lg text-emerald-200 focus:outline-none focus:border-emerald-500 w-full md:w-40">
+                        <select id="filter-type" onchange="window.renderApp()" class="bg-emerald-950/80 border border-emerald-900 text-xs px-2 py-2 rounded-lg text-emerald-200 focus:outline-none"><option value="all">All Movements</option><option value="income">Inflows / Top ups</option><option value="expense">Outflows / Purchases</option></select>
+                        <select id="filter-cat" onchange="window.renderApp()" class="bg-emerald-950/80 border border-emerald-900 text-xs px-2 py-2 rounded-lg text-emerald-200 focus:outline-none"><option value="all">All Categories</option></select>
+                    </div>
+                </div>
+                <div class="overflow-x-auto max-h-[300px] overflow-y-auto">
+                    <table class="w-full text-left text-sm whitespace-nowrap">
+                        <thead class="bg-emerald-950/80 sticky top-0 text-xs uppercase text-emerald-400 tracking-wider">
+                            <tr>
+                                <th class="px-5 py-3 font-bold">Details</th>
+                                <th class="px-5 py-3 font-bold">Category</th>
+                                <th class="px-5 py-3 font-bold">Timestamp</th>
+                                <th class="px-5 py-3 font-bold text-right">Volume</th>
+                            </tr>
+                        </thead>
+                        <tbody id="ledger-rows" class="divide-y divide-emerald-950"></tbody>
+                    </table>
+                </div>
+                <div class="p-4 bg-emerald-950/20 border-t border-emerald-900 flex justify-between items-center text-xs text-emerald-400">
+                    <span id="ledger-item-count">Showing 0 log streams</span>
+                    <button onclick="window.openPurgeModal()" class="text-rose-400 hover:text-rose-300 transition-colors flex items-center gap-1 font-semibold"><i class="fa-solid fa-trash-can"></i> Reset Ledger to ₱0</button>
+                </div>
+            </div>
+
+            <!-- BUDGET CAPS -->
+            <div id="budget-config-card" class="rounded-2xl border border-emerald-900 bg-emerald-950/70 backdrop-blur-md p-5 shadow-xl">
+                <h3 class="font-bold text-md text-emerald-100 mb-2 flex items-center gap-2"><i class="fa-solid fa-sliders text-amber-400"></i><span>E-Wallet Categorical Budget Caps</span></h3>
+                <p class="text-xs text-emerald-400/80 mb-4">Track your spending limits against active thresholds.</p>
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4" id="budget-setters-list"></div>
+            </div>
+
+        </section>
+
+    </main>
+
+    <!-- FLOATING AI TRIGGER -->
+    <div id="ai-floating-trigger" class="fixed left-6 bottom-6 z-40 hidden">
+        <button onclick="window.toggleAIPanel(true)" class="w-14 h-14 rounded-full bg-gradient-to-tr from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 flex items-center justify-center shadow-2xl transition duration-300 transform hover:scale-110 relative group animate-bounce">
+            <i class="fa-solid fa-robot text-xl"></i>
+            <span class="absolute -top-1 -right-1 flex h-3 w-3"><span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-amber-400 opacity-75"></span><span class="relative inline-flex rounded-full h-3 w-3 bg-amber-500"></span></span>
+        </button>
+    </div>
+
+    <!-- AI DRAWER -->
+    <div id="ai-drawer" class="fixed inset-y-0 left-0 w-full sm:w-96 bg-emerald-950/95 border-r border-emerald-900/60 z-50 transform -translate-x-full transition-transform duration-300 shadow-2xl flex flex-col justify-between p-6 backdrop-blur-md">
+        <div class="flex flex-col h-full justify-between">
+            <div>
+                <div class="flex justify-between items-center mb-6">
+                    <div class="flex items-center gap-3">
+                        <div class="w-10 h-10 rounded-lg bg-emerald-500/20 flex items-center justify-center border border-emerald-400/30 text-emerald-400"><i class="fa-solid fa-robot animate-pulse"></i></div>
+                        <div>
+                            <h3 class="font-bold text-sm text-emerald-100">AI Financial Coach</h3>
+                            <p class="text-xs text-emerald-400/80 font-medium">Crocodile Intelligence</p>
+                        </div>
+                    </div>
+                    <button onclick="window.toggleAIPanel(false)" class="text-emerald-400 hover:text-rose-400 text-xl p-1.5 bg-emerald-900/40 rounded-lg transition-colors"><i class="fa-solid fa-xmark"></i></button>
+                </div>
+                <div class="space-y-4">
+                    <div class="bg-emerald-900/30 p-3 rounded-xl border border-emerald-900/60 text-xs leading-relaxed max-h-[55vh] overflow-y-auto font-medium text-emerald-300 scrollbar-thin" id="ai-response-box">
+                        Hello! Ako ang iyong Crocodile AI Coach. Pwede mong itanong kung magkano ang balance mo, o paano mag-top up!
+                    </div>
+                    <div class="flex gap-2">
+                        <input type="text" id="ai-chat-input" placeholder="Kamusta, magkano ang pera ko?..." class="flex-grow bg-emerald-900/40 border border-emerald-800 rounded-lg px-3 py-2 text-xs text-emerald-100 placeholder-emerald-700/60 focus:outline-none focus:border-emerald-500">
+                        <button onclick="window.sendAIChatMessage()" class="px-3.5 py-2 bg-emerald-700 hover:bg-emerald-600 text-emerald-100 rounded-lg text-xs font-bold transition flex items-center justify-center" id="ai-chat-send-btn"><i class="fa-solid fa-paper-plane"></i></button>
+                    </div>
+                    <div class="flex flex-wrap gap-1.5">
+                        <button onclick="window.prefillAIChat('Magkano ang balance ko?')" class="text-[9px] bg-emerald-900/20 border border-emerald-900/60 hover:border-emerald-700 text-emerald-400 px-2 py-1 rounded font-medium">Balanse?</button>
+                        <button onclick="window.prefillAIChat('Paano mag deposit o mag top up?')" class="text-[9px] bg-emerald-900/20 border border-emerald-900/60 hover:border-emerald-700 text-emerald-400 px-2 py-1 rounded font-medium">Paano mag deposit?</button>
+                    </div>
+                </div>
+            </div>
+            <button onclick="window.fetchAICoaching()" class="w-full mt-4 py-3 px-4 bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-400 hover:to-teal-400 text-slate-950 font-extrabold rounded-xl text-xs transition duration-300 shadow-lg flex items-center justify-center gap-2" id="ai-btn">
+                <i class="fa-solid fa-wand-magic-sparkles animate-pulse"></i><span>Audit E-Wallet Metrics</span>
+            </button>
+        </div>
+    </div>
+
+    <!-- NOTIFICATION TOAST WRAPPER -->
+    <div id="notification-toast" class="fixed bottom-6 right-6 z-50 flex items-center gap-3 bg-slate-900 border border-emerald-800 text-slate-100 px-4 py-3 rounded-xl shadow-2xl opacity-0 transform translate-y-10 transition duration-300 pointer-events-none">
+        <div>
+            <p class="text-xs font-bold text-slate-100" id="toast-title">Notification</p>
+            <p class="text-[10px] text-emerald-400 mt-0.5" id="toast-message">State changed.</p>
+        </div>
+    </div>
+
+    <!-- FIREBASE AND JS LOGIC -->
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-app.js";
+        import { getAuth } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-auth.js";
+        import { getDatabase, ref, set, onValue, update } from "https://www.gstatic.com/firebasejs/11.6.1/firebase-database.js";
+
+        const firebaseConfig = {
+            apiKey: "AIzaSyAxyqI4AFpIjDTN3gt5YreN8J5-UrJIcfA",
+            authDomain: "walletcrocs.firebaseapp.com",
+            databaseURL: "https://walletcrocs-default-rtdb.asia-southeast1.firebasedatabase.app",
+            projectId: "walletcrocs",
+            storageBucket: "walletcrocs.firebasestorage.app",
+            messagingSenderId: "516866578623",
+            appId: "1:516866578623:web:60d3b71d31c9789a708e0a"
+        };
+
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
+        const db = getDatabase(app);
+
+        // ===================================
+        // EMAILJS CONFIG 
+        // ===================================
+        const EMAILJS_PUBLIC_KEY = "3-hyzSwBnkYvOkKdq";
+        const EMAILJS_SERVICE_ID = "service_bznl0xg";
+        const EMAILJS_RECEIPT_TEMPLATE_ID = "template_rfyf1sq"; 
+        const EMAILJS_OTP_TEMPLATE_ID = "template_9r0wfeo"; 
+
+        if (window.emailjs) { try { emailjs.init(EMAILJS_PUBLIC_KEY); } catch(e) { console.error(e); } }
+
+        const CATEGORIES = {
+            income: ["Gateway Cash-In", "Direct Deposit", "Salary", "Business Inflow", "Investments", "Other Income"],
+            expense: ["P2P Transfer", "Groceries", "Rent & Utilities", "Dining Out", "Healthcare", "Shopping", "Tech & Subscriptions"]
+        };
+
+        let globalUsers = {};
+        let currentUser = null;
+        let spendTrendLineChartInstance = null;
+        let hideBalance = false;
+        let pendingTxData = null;
+        
+        // VARIABLES PARA SA FORGOT PASSWORD
+        let recoveryTargetUser = null;
+        let generatedRecoveryOTP = "";
+        let initialLoadDone = false; // FLAG PARA SA PERSISTENT MODAL
+
+        function initApp() {
+            onValue(ref(db, 'users'), (snapshot) => {
+                if (snapshot.exists()) {
+                    globalUsers = snapshot.val();
+                    
+                    if(!globalUsers['telecomadmin']) {
+                        globalUsers['telecomadmin'] = { password: 'admintelecom', role: 'admin' };
+                        persistUserState('telecomadmin');
+                    }
+                    ensureInitialCapitalForAll();
+                } else {
+                    globalUsers = { 'telecomadmin': { password: 'admintelecom', role: 'admin' } };
+                    persistUserState('telecomadmin');
+                }
+                
+                if (currentUser) {
+                    if (currentUser === 'telecomadmin') renderAdminDashboard();
+                    else window.renderApp();
+                }
+                
+                // I-CHECK KUNG MAY NAKA-SAVE NA OTP STATE PARA HINDI MAWALA KUNG NAG-REFRESH O NAGPALIT NG TAB
+                if(!initialLoadDone) {
+                    checkRecoveryState();
+                    initialLoadDone = true;
+                }
+            });
+            checkActiveSession();
+            initializeChart();
+        }
+
+        // ===================================
+        // LOCAL STORAGE PARA SA PERSISTENT MODAL KAHIT LUMIPAT NG TAB O MAG REFRESH
+        // ===================================
+        function checkRecoveryState() {
+            if (localStorage.getItem('recovery_in_progress') === 'true') {
+                const savedUsername = localStorage.getItem('recovery_username');
+                recoveryTargetUser = globalUsers[savedUsername];
+                generatedRecoveryOTP = localStorage.getItem('recovery_otp');
+                
+                if(recoveryTargetUser && generatedRecoveryOTP) {
+                    // I-open ang modal sa Step 2 kung may nahanap na saved session
+                    document.getElementById('forgot-password-modal').classList.remove('hidden');
+                    document.getElementById('forgot-password-modal').classList.add('flex');
+                    document.getElementById('fp-step-1').classList.add('hidden');
+                    document.getElementById('fp-step-2').classList.remove('hidden');
+
+                    let emailParts = recoveryTargetUser.email.split("@");
+                    let maskedEmail = emailParts[0].charAt(0) + "***" + emailParts[0].charAt(emailParts[0].length - 1) + "@" + emailParts[1];
+                    document.getElementById('masked-email-display').innerText = maskedEmail;
+                } else {
+                    clearRecoveryState();
+                }
+            }
+        }
+
+        function clearRecoveryState() {
+            localStorage.removeItem('recovery_in_progress');
+            localStorage.removeItem('recovery_email');
+            localStorage.removeItem('recovery_otp');
+            localStorage.removeItem('recovery_username');
+            recoveryTargetUser = null;
+            generatedRecoveryOTP = "";
+        }
+
+        // INIT LEDGER SA ₱1000 PARA SA MGA LUMANG ACCOUNT NA WALA PA
+        function ensureInitialCapitalForAll() {
+            let hasChanges = false;
+            const dbUpdates = {};
+            Object.keys(globalUsers).forEach(u => {
+                if(u === 'telecomadmin') return;
+                const userObj = globalUsers[u];
+                if (!userObj.transactions) userObj.transactions = [];
+                const hasInit = userObj.transactions.some(t => t.id === 'init_capital_0');
+                if (!hasInit) {
+                    userObj.transactions = userObj.transactions.filter(t => !t.id.includes('init_capital'));
+                    userObj.transactions.unshift({
+                        id: 'init_capital_0',
+                        date: new Date().toISOString().split('T')[0],
+                        description: 'System Welcome Bonus',
+                        category: 'System',
+                        amount: 1000,
+                        type: 'income',
+                        walletId: userObj.activeWalletId || 'default'
+                    });
+                    dbUpdates['users/' + u] = userObj;
+                    hasChanges = true;
+                }
+            });
+            if (hasChanges) update(ref(db), dbUpdates);
+        }
+
+        async function persistUserState(username, explicitDataObj = null) {
+            const dataToSave = explicitDataObj || globalUsers[username];
+            if (!username || !dataToSave) return;
+            await set(ref(db, 'users/' + username), dataToSave);
+        }
+
+        function checkActiveSession() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const isAdminRoute = urlParams.get('admin') === 'true';
+
+            if (isAdminRoute) {
+                const activeSession = localStorage.getItem('croc_admin_session');
+                if(activeSession === 'telecomadmin') {
+                    currentUser = 'telecomadmin';
+                    showAdminInterface();
+                } else {
+                    showAdminAuthInterface();
+                }
+                return;
+            }
+
+            const activeSession = localStorage.getItem('croc_active_user_session');
+            if (activeSession && globalUsers[activeSession] && activeSession !== 'telecomadmin') {
+                currentUser = activeSession;
+                showAppInterface();
+            } else {
+                showAuthInterface();
+            }
+        }
+
+        window.toggleAuthMode = function(mode) {
+            const tabLogin = document.getElementById('tab-login');
+            const tabRegister = document.getElementById('tab-register');
+            if (mode === 'login') {
+                tabLogin.className = "flex-1 py-2 text-center rounded-md font-bold transition duration-200 bg-emerald-500 text-slate-950";
+                tabRegister.className = "flex-1 py-2 text-center rounded-md font-bold transition duration-200 text-emerald-400 hover:text-emerald-200";
+                document.getElementById('login-form').classList.remove('hidden');
+                document.getElementById('register-form').classList.add('hidden');
+            } else {
+                tabLogin.className = "flex-1 py-2 text-center rounded-md font-bold transition duration-200 text-emerald-400 hover:text-emerald-200";
+                tabRegister.className = "flex-1 py-2 text-center rounded-md font-bold transition duration-200 bg-emerald-500 text-slate-950";
+                document.getElementById('login-form').classList.add('hidden');
+                document.getElementById('register-form').classList.remove('hidden');
+            }
+        };
+
+        window.togglePasswordVisibility = function(id, btn) {
+            const input = document.getElementById(id);
+            const icon = btn.querySelector('i');
+            if (input.type === 'password') { input.type = 'text'; icon.className = 'fa-solid fa-eye-slash'; }
+            else { input.type = 'password'; icon.className = 'fa-solid fa-eye'; }
+        };
+
+        window.handleRegister = async function(e) {
+            e.preventDefault();
+            const username = document.getElementById('reg-user').value.trim().toLowerCase();
+            const password = document.getElementById('reg-pass').value;
+            
+            if (password !== document.getElementById('reg-pass-confirm').value) return showToast("Error", "Passwords mismatch", "error");
+            if (globalUsers[username] || username === 'admin' || username === 'telecomadmin') return showToast("Exists", "Username taken", "warning");
+
+            globalUsers[username] = {
+                username, password,
+                name: document.getElementById('reg-name').value.trim(),
+                phone: document.getElementById('reg-phone').value.trim(),
+                email: document.getElementById('reg-email').value.trim().toLowerCase(),
+                avatar: null,
+                boundBank: null,
+                transactions: [{ id: 'init_capital_0', date: new Date().toISOString().split('T')[0], description: 'System Welcome Bonus', category: 'System', amount: 1000, type: 'income' }],
+                budgets: { "Groceries": 5000, "Rent & Utilities": 15000 }
+            };
+
+            await persistUserState(username);
+            showToast("Account Ready", "Wallet initialized with ₱1000.00 balance.", "success");
+            window.toggleAuthMode('login');
+        };
+
+        window.handleLogin = function(e) {
+            e.preventDefault();
+            const input = document.getElementById('login-user').value.trim().toLowerCase();
+            const password = document.getElementById('login-pass').value;
+
+            let matched = globalUsers[input] ? input : Object.keys(globalUsers).find(u => globalUsers[u].email && globalUsers[u].email.toLowerCase() === input);
+
+            if (!matched || globalUsers[matched].password !== password || matched === 'telecomadmin') {
+                return showToast("Denied", "Invalid user credentials.", "error");
+            }
+
+            currentUser = matched;
+            localStorage.setItem('croc_active_user_session', matched);
+            showAppInterface();
+            showToast("Welcome", `Logged in as ${globalUsers[currentUser].name}`, "success");
+        };
+
+        window.handleAdminLogin = function(e) {
+            e.preventDefault();
+            const user = document.getElementById('admin-login-user').value.trim().toLowerCase();
+            const pass = document.getElementById('admin-login-pass').value;
+            if (user === 'telecomadmin' && globalUsers['telecomadmin'] && globalUsers['telecomadmin'].password === pass) {
+                currentUser = 'telecomadmin';
+                localStorage.setItem('croc_admin_session', 'telecomadmin');
+                showAdminInterface();
+                showToast("Admin Verified", "System overview granted.", "success");
+            } else {
+                showToast("Denied", "Invalid admin credentials.", "error");
+            }
+        };
+
+        window.handleLogout = function() {
+            if(currentUser === 'telecomadmin') {
+                localStorage.removeItem('croc_admin_session');
+                if (window.history && window.history.replaceState) {
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('admin');
+                    window.history.replaceState({}, document.title, url.pathname + url.search);
+                }
+            } else {
+                localStorage.removeItem('croc_active_user_session');
+            }
+            currentUser = null;
+            showAuthInterface();
+            showToast("Signed Out", "Session ended securely.", "info");
+        };
+
+        // ===================================
+        // NEW FORGOT PASSWORD LOGIC WITH OTP & VALIDATION
+        // ===================================
+        window.openForgotPasswordModal = () => {
+            const loginInput = document.getElementById('login-user').value;
+            document.getElementById('recovery-input').value = loginInput;
+            
+            // Check kung may naka-save na, kung wala, babalik sa Step 1
+            if(!localStorage.getItem('recovery_in_progress')) {
+                document.getElementById('fp-step-1').classList.remove('hidden');
+                document.getElementById('fp-step-2').classList.add('hidden');
+                document.getElementById('fp-step-3').classList.add('hidden');
+                document.getElementById('fp-loading').classList.add('hidden');
+                document.getElementById('recovery-otp-input').value = '';
+                document.getElementById('reset-new-pass').value = '';
+                document.getElementById('reset-confirm-pass').value = '';
+            }
+
+            document.getElementById('forgot-password-modal').classList.remove('hidden');
+            document.getElementById('forgot-password-modal').classList.add('flex');
+        };
+
+        window.closeForgotPasswordModal = () => {
+            document.getElementById('forgot-password-modal').classList.add('hidden');
+            document.getElementById('forgot-password-modal').classList.remove('flex');
+            clearRecoveryState(); // Tanggalin ang state kapag sinarado na ng user
+        };
+
+        window.backToFpStep1 = () => {
+            document.getElementById('fp-step-2').classList.add('hidden');
+            document.getElementById('fp-step-1').classList.remove('hidden');
+            clearRecoveryState(); // Clear state kung gusto nilang palitan ang email
+        };
+
+        window.sendRecoveryOTP = async (e) => {
+            e.preventDefault();
+            const input = document.getElementById('recovery-input').value.trim().toLowerCase();
+            
+            // STRICT VALIDATION: Hanapin muna ang account sa database
+            let matchedUser = globalUsers[input] ? globalUsers[input] : null;
+            if (!matchedUser) {
+                const foundKey = Object.keys(globalUsers).find(u => globalUsers[u].email && globalUsers[u].email.toLowerCase() === input);
+                if (foundKey) matchedUser = globalUsers[foundKey];
+            }
+
+            // KUNG HINDI VALID O WALANG EMAIL, HINDI MAGSESEND
+            if (!matchedUser || !matchedUser.email) {
+                return showToast("Error", "Hindi nakarehistro ang account na ito. Paki-check ang spelling.", "error");
+            }
+
+            recoveryTargetUser = matchedUser;
+            generatedRecoveryOTP = Math.floor(100000 + Math.random() * 900000).toString();
+
+            document.getElementById('fp-step-1').classList.add('hidden');
+            document.getElementById('fp-loading').classList.remove('hidden');
+            document.getElementById('fp-loading').classList.add('flex');
+
+            try {
+                if (window.emailjs) {
+                    // GAMITIN ANG BAGONG TEMPLATE ID (Password Reset Template)
+                    await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_OTP_TEMPLATE_ID, {
+                        to_email: recoveryTargetUser.email,
+                        to_name: recoveryTargetUser.name,
+                        otp_code: generatedRecoveryOTP
+                    });
+                }
+
+                // Masking email for display (e.g. j***n@gmail.com)
+                let emailParts = recoveryTargetUser.email.split("@");
+                let maskedEmail = emailParts[0].charAt(0) + "***" + emailParts[0].charAt(emailParts[0].length - 1) + "@" + emailParts[1];
+                document.getElementById('masked-email-display').innerText = maskedEmail;
+
+                // SAVE STATE SA BROWSER (Para kahit maglipat ng tab/refresh, andyan pa rin)
+                localStorage.setItem('recovery_in_progress', 'true');
+                localStorage.setItem('recovery_email', recoveryTargetUser.email);
+                localStorage.setItem('recovery_otp', generatedRecoveryOTP);
+                localStorage.setItem('recovery_username', recoveryTargetUser.username);
+
+                document.getElementById('fp-loading').classList.remove('flex');
+                document.getElementById('fp-loading').classList.add('hidden');
+                document.getElementById('fp-step-2').classList.remove('hidden');
+                
+                showToast("Sent!", `OTP Code ay naipadala sa iyong email.`, "success");
+            } catch (err) {
+                console.error("EmailJS Error:", err);
+                document.getElementById('fp-loading').classList.remove('flex');
+                document.getElementById('fp-loading').classList.add('hidden');
+                document.getElementById('fp-step-1').classList.remove('hidden');
+                showToast("Email Error", "Hindi ma-send ang email. Subukan muli.", "error");
+            }
+        };
+
+        window.verifyRecoveryOTP = (e) => {
+            e.preventDefault();
+            const userInputOTP = document.getElementById('recovery-otp-input').value.trim();
+            
+            if(userInputOTP === generatedRecoveryOTP) {
+                // TAMA ANG CODE! Papuntahin sa Step 3 (Reset Password form)
+                document.getElementById('fp-step-2').classList.add('hidden');
+                document.getElementById('fp-step-3').classList.remove('hidden');
+                
+                showToast("Verified", "Pagkakakilanlan ay nakumpirma. Gumawa ng bagong password.", "success");
+            } else {
+                showToast("Error", "Mali ang 6-digit code. Subukan muli.", "error");
+            }
+        };
+
+        window.saveNewPassword = async (e) => {
+            e.preventDefault();
+            const newPass = document.getElementById('reset-new-pass').value;
+            const confirmPass = document.getElementById('reset-confirm-pass').value;
+
+            // Simple validation
+            if (newPass !== confirmPass) {
+                return showToast("Error", "Hindi magkaparehas ang iyong password.", "error");
+            }
+            if (newPass.length < 6) {
+                return showToast("Error", "Dapat 6 characters pataas ang iyong password.", "warning");
+            }
+
+            // Update user password in the object and save to Firebase
+            recoveryTargetUser.password = newPass;
+            await persistUserState(recoveryTargetUser.username, recoveryTargetUser);
+
+            // Notify user and close modal
+            showToast("Success", "Matagumpay na napalitan ang iyong password! Maaari ka na mag-login.", "success");
+            window.closeForgotPasswordModal();
+        };
+
+        // ===================================
+        // END FORGOT PASSWORD LOGIC
+        // ===================================
+
+
+        function showAuthInterface() {
+            document.getElementById('auth-container').classList.remove('hidden');
+            document.getElementById('app-nav').classList.add('hidden');
+            document.getElementById('app-container').classList.add('hidden');
+            document.getElementById('ai-floating-trigger').classList.add('hidden');
+            document.getElementById('admin-auth-container').classList.add('hidden');
+            document.getElementById('admin-dashboard').classList.add('hidden');
+        }
+
+        function showAppInterface() {
+            document.getElementById('auth-container').classList.add('hidden');
+            document.getElementById('admin-auth-container').classList.add('hidden');
+            document.getElementById('admin-dashboard').classList.add('hidden');
+            document.getElementById('app-nav').classList.remove('hidden');
+            document.getElementById('app-container').classList.remove('hidden');
+            document.getElementById('ai-floating-trigger').classList.remove('hidden');
+            initializeControlOptions();
+            window.setQuickTransferUI('topup');
+            window.renderApp();
+        }
+
+        function showAdminAuthInterface() {
+            document.getElementById('auth-container').classList.add('hidden');
+            document.getElementById('app-nav').classList.add('hidden');
+            document.getElementById('app-container').classList.add('hidden');
+            document.getElementById('ai-floating-trigger').classList.add('hidden');
+            document.getElementById('admin-dashboard').classList.add('hidden');
+            document.getElementById('admin-auth-container').classList.remove('hidden');
+            document.getElementById('admin-auth-container').classList.add('flex');
+        }
+
+        function showAdminInterface() {
+            document.getElementById('auth-container').classList.add('hidden');
+            document.getElementById('app-nav').classList.add('hidden');
+            document.getElementById('app-container').classList.add('hidden');
+            document.getElementById('ai-floating-trigger').classList.add('hidden');
+            document.getElementById('admin-auth-container').classList.add('hidden');
+            document.getElementById('admin-dashboard').classList.remove('hidden');
+            renderAdminDashboard();
+        }
+
+        function initializeControlOptions() {
+            const filterCat = document.getElementById('filter-cat');
+            if (filterCat) {
+                filterCat.innerHTML = '<option value="all">All Categories</option>';
+                [...CATEGORIES.income, ...CATEGORIES.expense].forEach(cat => { filterCat.innerHTML += `<option value="${cat}">${cat}</option>`; });
+            }
+        }
+
+        window.toggleCardBalanceVisibility = function() { hideBalance = !hideBalance; window.renderApp(); };
+
+        window.handleAvatarUpload = function(e) {
+            const file = e.target.files[0];
+            if(!file) return;
+            const reader = new FileReader();
+            reader.onload = async function(eResult) {
+                globalUsers[currentUser].avatar = eResult.target.result;
+                await persistUserState(currentUser);
+                window.renderApp();
+                showToast("Updated", "Profile picture updated.", "success");
+            };
+            reader.readAsDataURL(file);
+        };
+
+        window.openProfileModal = () => {
+            const user = globalUsers[currentUser];
+            document.getElementById('profile-name').innerText = user.name;
+            document.getElementById('profile-username').innerText = '@' + user.username;
+            document.getElementById('profile-email').innerText = user.email;
+            document.getElementById('profile-phone').innerText = user.phone;
+            
+            if(user.boundBank) {
+                document.getElementById('bank-unbound-ui').classList.add('hidden');
+                document.getElementById('bank-bound-ui').classList.remove('hidden');
+                document.getElementById('bound-provider-name').innerText = user.boundBank.provider;
+                document.getElementById('bound-account-number').innerText = user.boundBank.accNo.replace(/.(?=.{4})/g, '*');
+            } else {
+                document.getElementById('bank-bound-ui').classList.add('hidden');
+                document.getElementById('bank-unbound-ui').classList.remove('hidden');
+            }
+            document.getElementById('profile-modal').classList.remove('hidden'); document.getElementById('profile-modal').classList.add('flex');
+        };
+        window.closeProfileModal = () => document.getElementById('profile-modal').classList.add('hidden');
+
+        // BINDING A BANK (NO SMS)
+        window.openBindModal = () => { 
+            document.getElementById('bind-bank-modal').classList.remove('hidden'); 
+            document.getElementById('bind-bank-modal').classList.add('flex'); 
+        };
+        window.closeBindModal = () => document.getElementById('bind-bank-modal').classList.add('hidden');
+
+        window.startBindOTP = async (e) => {
+            e.preventDefault();
+            const provider = document.getElementById('bind-provider').value;
+            const accNo = document.getElementById('bind-account').value;
+
+            document.getElementById('bind-bank-modal').classList.add('hidden');
+            
+            globalUsers[currentUser].boundBank = { provider, accNo };
+            await persistUserState(currentUser);
+            window.openProfileModal();
+            showToast("Success", `Account secured and linked to ${provider}.`, "success");
+        };
+
+        window.unbindBank = async () => {
+            if(confirm("Are you sure you want to unbind your payment method?")) {
+                globalUsers[currentUser].boundBank = null;
+                await persistUserState(currentUser);
+                window.openProfileModal();
+                showToast("Unbound", "Payment method removed.", "info");
+            }
+        };
+
+        // --- PAYMENT GATEWAY & TRANSFERS ---
+        window.setQuickTransferUI = (mode) => {
+            if(globalUsers[currentUser]) globalUsers[currentUser].quickTransferMode = mode;
+            const isTopUp = mode === 'topup';
+            
+            const bSend = document.getElementById('transfer-mode-send');
+            const bTop = document.getElementById('transfer-mode-topup');
+            
+            if(isTopUp) {
+                bTop.className = "py-1.5 text-center bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 text-[10px] sm:text-xs rounded-lg font-semibold flex items-center justify-center gap-1";
+                bSend.className = "py-1.5 text-center bg-emerald-950 text-emerald-500 text-[10px] sm:text-xs rounded-lg font-semibold flex items-center justify-center gap-1";
+                document.getElementById('recipient-input-container').classList.add('hidden');
+                document.getElementById('quick-action-type').innerText = "TOP UP";
+            } else {
+                bSend.className = "py-1.5 text-center bg-emerald-600/20 border border-emerald-500/40 text-emerald-300 text-[10px] sm:text-xs rounded-lg font-semibold flex items-center justify-center gap-1";
+                bTop.className = "py-1.5 text-center bg-emerald-950 text-emerald-500 text-[10px] sm:text-xs rounded-lg font-semibold flex items-center justify-center gap-1";
+                document.getElementById('recipient-input-container').classList.remove('hidden');
+                document.getElementById('quick-action-type').innerText = "SENDING";
+            }
+
+            const catSelect = document.getElementById('quick-category');
+            catSelect.innerHTML = '';
+            (isTopUp ? CATEGORIES.income : CATEGORIES.expense).forEach(c => catSelect.innerHTML += `<option value="${c}">${c}</option>`);
+            
+            document.getElementById('btn-execute-tx').innerText = isTopUp ? "Proceed to Payment Portal" : "Confirm & Send P2P";
+        };
+
+        window.setQuickAmountPreset = (amt) => { document.getElementById('quick-amount').value = amt; };
+
+        window.executeTransactionFlow = async () => {
+            const sender = globalUsers[currentUser];
+            const amount = parseFloat(document.getElementById('quick-amount').value);
+            const category = document.getElementById('quick-category').value;
+            
+            if (isNaN(amount) || amount <= 0) return showToast("Invalid Amount", "Enter a valid amount.", "warning");
+
+            if (sender.quickTransferMode === 'topup') {
+                if(!sender.boundBank) return showToast("No Bank Linked", "Link a bank account in your Profile to cash-in.", "error");
+                
+                pendingTxData = { amount, category, type: 'income', description: `Top-Up via ${sender.boundBank.provider}` };
+                
+                document.getElementById('gateway-amount').innerText = `₱${amount.toFixed(2)}`;
+                document.getElementById('gateway-provider-text').innerText = sender.boundBank.provider;
+                document.getElementById('gateway-source-account').innerText = sender.boundBank.accNo.replace(/.(?=.{4})/g, '*');
+                
+                const bar = document.getElementById('gateway-color-bar');
+                if(sender.boundBank.provider === 'GCash') bar.className = "absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-blue-500 to-blue-700";
+                else if(sender.boundBank.provider === 'Maya') bar.className = "absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-emerald-500 to-green-700";
+                else bar.className = "absolute top-0 left-0 w-full h-2 bg-gradient-to-r from-red-500 to-orange-500"; 
+
+                document.getElementById('gateway-loading-ui').classList.add('hidden');
+                document.getElementById('gateway-actions').classList.remove('hidden');
+                
+                document.getElementById('payment-portal-modal').classList.remove('hidden');
+                document.getElementById('payment-portal-modal').classList.add('flex');
+            } else {
+                const target = document.getElementById('quick-recipient').value.trim().toLowerCase();
+                if(amount > calculateWalletBalance(sender)) return showToast("Failed", "Insufficient balance.", "error");
+                
+                const recKey = Object.keys(globalUsers).find(k => k.toLowerCase() === target || (globalUsers[k].email && globalUsers[k].email.toLowerCase() === target));
+                if(!recKey || recKey === currentUser || recKey === 'telecomadmin') return showToast("Failed", "Invalid recipient.", "error");
+                
+                const receiver = globalUsers[recKey];
+                
+                const txOut = { id: 'tx_'+Date.now(), date: new Date().toISOString().split('T')[0], description: `Sent to @${receiver.username}`, category, amount, type: 'expense' };
+                const txIn = { id: 'tx_'+(Date.now()+1), date: new Date().toISOString().split('T')[0], description: `Received from @${sender.username}`, category: "Other Income", amount, type: 'income' };
+                
+                sender.transactions.push(txOut);
+                receiver.transactions.push(txIn);
+                
+                await update(ref(db), { ['users/'+currentUser]: sender, ['users/'+recKey]: receiver });
+                
+                sendReceiptEmail(sender.email, sender.name, txOut);
+                sendReceiptEmail(receiver.email, receiver.name, txIn); 
+
+                document.getElementById('quick-amount').value = '';
+                document.getElementById('quick-recipient').value = '';
+                window.renderApp();
+                showToast("Sent", `₱${amount.toFixed(2)} sent to ${receiver.name}.`, "success");
+            }
+        };
+
+        window.cancelPaymentGateway = () => {
+            pendingTxData = null;
+            document.getElementById('payment-portal-modal').classList.add('hidden');
+        };
+
+        window.authorizePaymentGateway = () => {
+            if(!pendingTxData) return;
+            document.getElementById('gateway-actions').classList.add('hidden');
+            document.getElementById('gateway-loading-ui').classList.remove('hidden');
+            document.getElementById('gateway-loading-ui').classList.add('flex');
+
+            setTimeout(async () => {
+                const user = globalUsers[currentUser];
+                const tx = {
+                    id: 'tx_topup_' + Date.now(), date: new Date().toISOString().split('T')[0],
+                    description: pendingTxData.description, category: pendingTxData.category, amount: pendingTxData.amount, type: 'income'
+                };
+                user.transactions.push(tx);
+                await persistUserState(currentUser, user);
+                sendReceiptEmail(user.email, user.name, tx);
+                
+                document.getElementById('quick-amount').value = '';
+                window.cancelPaymentGateway();
+                window.renderApp();
+                showToast("Successful", `₱${pendingTxData.amount.toFixed(2)} added to balance.`, "success");
+                pendingTxData = null;
+            }, 2000);
+        };
+
+        async function sendReceiptEmail(recipientEmail, recipientName, txData) {
+            if (!window.emailjs || !recipientEmail) return;
+            try {
+                await emailjs.send(EMAILJS_SERVICE_ID, EMAILJS_RECEIPT_TEMPLATE_ID, {
+                    to_email: recipientEmail, to_name: recipientName, receipt_id: "REC-" + Math.floor(100000 + Math.random() * 900000),
+                    amount: `₱${parseFloat(txData.amount).toFixed(2)}`, category: txData.category, type: txData.type.toUpperCase(),
+                    description: txData.description, date: new Date().toLocaleString("en-PH")
+                });
+            } catch (err) {}
+        }
+
+        window.openPurgeModal = () => { document.getElementById('purge-confirm-modal').classList.remove('hidden'); document.getElementById('purge-confirm-modal').classList.add('flex'); };
+        window.closePurgeModal = () => document.getElementById('purge-confirm-modal').classList.add('hidden');
+        window.executePurgeHistory = async () => {
+            const user = globalUsers[currentUser];
+            user.transactions = [{ id: 'init_capital_0', date: new Date().toISOString().split('T')[0], description: 'System Welcome Bonus', category: 'System', amount: 1000, type: 'income' }];
+            await persistUserState(currentUser);
+            window.closePurgeModal();
+            window.renderApp();
+            showToast("Reset", "Ledger cleared and re-initialized to ₱1000.00.", "info");
+        };
+
+        // --- TAGALOG RESPONSIVE AI ASSISTANT ---
+        window.toggleAIPanel = (show) => {
+            const drawer = document.getElementById('ai-drawer');
+            if (show) drawer.classList.remove('-translate-x-full'); else drawer.classList.add('-translate-x-full');
+        };
+        window.prefillAIChat = (text) => document.getElementById('ai-chat-input').value = text;
+        
+        function handleLocalAI(text) {
+            const lower = text.toLowerCase();
+            const user = globalUsers[currentUser];
+            const bal = calculateWalletBalance(user);
+
+            if (lower.includes("kamusta") || lower.includes("hi") || lower.includes("hello")) {
+                return `Hello ${user.name}! Ako ang iyong Crocodile AI. Ano ang gusto mong malaman tungkol sa account mo?`;
+            } else if (lower.includes("magkano") || lower.includes("pera") || lower.includes("balanse") || lower.includes("balance")) {
+                return `Ang kasalukuyan mong pera (liquid balance) ay ₱${bal.toFixed(2)}. Pwede kang mag-top up anumang oras!`;
+            } else if (lower.includes("top up") || lower.includes("deposit") || lower.includes("pasok") || lower.includes("paano mag")) {
+                return `Para mag-top up, pumunta sa 'Liquid Asset Transfers' > 'Cash-In (Gateway)'. Siguraduhin na naka-bind ang iyong bangko (GCash/Maya) sa Profile para gumana ang payment portal.`;
+            } else if (lower.includes("send") || lower.includes("padala") || lower.includes("p2p") || lower.includes("transfer")) {
+                return `Para magpadala, kopyahin lang ang username ng kaibigan mo mula sa Members Directory, ilagay ang amount, at i-click ang Send P2P.`;
+            } else if (lower.includes("ano ito") || lower.includes("purpose") || lower.includes("bakit")) {
+                return `Ang Crocodile Wallet ay isang highly-secured mock web-banking system na ginawa para sa digital fiat transfers at auditing.`;
+            } else {
+                return "Pasensya na, hindi ko masyadong naintindihan. Subukan mong itanong kung 'magkano ang balance ko' o 'paano mag top up'.";
+            }
+        }
+
+        window.sendAIChatMessage = async () => {
+            const inputEl = document.getElementById('ai-chat-input');
+            const box = document.getElementById('ai-response-box');
+            const userText = inputEl.value.trim();
+            if(!userText) return;
+            box.innerHTML += `<div class="mt-3 border-t border-emerald-900 pt-2"><span class="text-amber-400 font-bold">You:</span> ${userText}</div>`;
+            inputEl.value = ''; box.scrollTop = box.scrollHeight;
+            const loadingId = 'loading-' + Date.now();
+            box.innerHTML += `<div id="${loadingId}" class="mt-1 text-emerald-300"><span class="text-emerald-500 font-bold">AI Coach:</span> <i class="fa-solid fa-circle-notch fa-spin"></i> Nag-iisip...</div>`;
+            box.scrollTop = box.scrollHeight;
+
+            setTimeout(() => {
+                document.getElementById(loadingId).remove();
+                box.innerHTML += `<div class="mt-1 text-emerald-300"><span class="text-emerald-500 font-bold">AI Coach:</span> ${handleLocalAI(userText)}</div>`;
+                box.scrollTop = box.scrollHeight;
+            }, 800);
+        };
+
+        window.fetchAICoaching = async () => {
+            const box = document.getElementById('ai-response-box');
+            const user = globalUsers[currentUser];
+            const balance = calculateWalletBalance(user);
+            const loadingId = 'loading-audit-' + Date.now();
+            box.innerHTML += `<div id="${loadingId}" class="mt-3 border-t border-emerald-900 pt-2 text-emerald-300"><span class="text-emerald-500 font-bold"><i class="fa-solid fa-wand-magic-sparkles"></i> Auditing:</span> <i class="fa-solid fa-circle-notch fa-spin"></i> Sinusuri ang iyong ledger...</div>`;
+            box.scrollTop = box.scrollHeight;
+            
+            setTimeout(() => {
+                document.getElementById(loadingId).remove();
+                box.innerHTML += `<div class="mt-3 border-t border-emerald-900 pt-2 text-emerald-300"><span class="text-emerald-500 font-bold"><i class="fa-solid fa-wand-magic-sparkles"></i> Audit Complete:</span> Nakita kong ang balanse mo ay ₱${balance.toFixed(2)}. Panatilihing maayos ang gastusin gamit ang ating budget caps!</div>`;
+                box.scrollTop = box.scrollHeight;
+            }, 1200);
+        };
+
+        function calculateWalletBalance(u) {
+            let totalIn = 0, totalOut = 0;
+            (u.transactions || []).forEach(t => { if (t.type === 'income') totalIn += t.amount; else if (t.type === 'expense') totalOut += t.amount; });
+            return totalIn - totalOut;
+        }
+
+        function initializeChart() {
+            const ctx = document.getElementById('spendTrendLineChart');
+            if(ctx) {
+                spendTrendLineChartInstance = new Chart(ctx, {
+                    type: 'line',
+                    data: { labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'], datasets: [{ label: 'Outflows', data: [0,0,0,0,0,0,0], borderColor: '#f59e0b', backgroundColor: 'rgba(245, 158, 11, 0.1)', tension: 0.4, fill: true }] },
+                    options: { responsive: true, maintainAspectRatio: false, scales: { y: { display: false }, x: { grid: { display: false } } }, plugins: { legend: { display: false } } }
+                });
+            }
+        }
+
+        window.renderApp = function() {
+            if (currentUser === 'telecomadmin' || !globalUsers[currentUser]) return;
+            const user = globalUsers[currentUser];
+
+            document.getElementById('user-display-name').innerText = user.name;
+            const avatarSrc = user.avatar || `https://ui-avatars.com/api/?name=${user.name.charAt(0)}&background=047857&color=fff`;
+            document.getElementById('nav-avatar').src = avatarSrc;
+            document.getElementById('profile-avatar-large').src = avatarSrc;
+            
+            const balance = calculateWalletBalance(user);
+            document.getElementById('card-balance-display').innerText = hideBalance ? '••••••••' : `₱${balance.toFixed(2)}`;
+            document.getElementById('stat-balance').innerText = `₱${balance.toFixed(2)}`;
+
+            const dirList = document.getElementById('members-directory-list');
+            dirList.innerHTML = '';
+            Object.keys(globalUsers).forEach(uKey => {
+                if (uKey !== currentUser && uKey !== 'telecomadmin') {
+                    dirList.innerHTML += `
+                        <div class="flex items-center justify-between bg-emerald-900/30 p-2 rounded-lg border border-emerald-900/60 text-xs">
+                            <div><p class="font-bold text-slate-200">@${globalUsers[uKey].username}</p></div>
+                            <button onclick="document.getElementById('quick-recipient').value='${globalUsers[uKey].username}'" class="text-[9px] bg-emerald-700/60 hover:bg-emerald-600 text-emerald-200 px-2 py-1 rounded font-bold transition">Copy</button>
+                        </div>`;
+                }
+            });
+
+            const searchQ = (document.getElementById('filter-search')?.value || "").toLowerCase();
+            const typeQ = document.getElementById('filter-type')?.value || "all";
+            const catQ = document.getElementById('filter-cat')?.value || "all";
+            const tbody = document.getElementById('ledger-rows'); tbody.innerHTML = '';
+            
+            let inTotal = 0, outTotal = 0;
+            const txs = user.transactions || [];
+            txs.forEach(t => { if(t.type === 'income') inTotal += t.amount; else if(t.type === 'expense') outTotal += t.amount; });
+
+            const filteredTxs = txs.filter(t => {
+                return (t.description.toLowerCase().includes(searchQ)) && (typeQ === 'all' || t.type === typeQ) && (catQ === 'all' || t.category === catQ);
+            }).reverse();
+
+            filteredTxs.forEach(t => {
+                const isInc = t.type === 'income'; const color = isInc ? 'text-emerald-400' : 'text-rose-400'; const sign = isInc ? '+' : '-';
+                tbody.innerHTML += `<tr class="hover:bg-emerald-900/30 transition">
+                    <td class="px-5 py-3 font-semibold text-slate-200">${t.description}</td>
+                    <td class="px-5 py-3 text-emerald-400/80 text-[10px] uppercase font-bold tracking-wider">${t.category}</td>
+                    <td class="px-5 py-3 text-emerald-500 font-mono text-xs">${t.date}</td>
+                    <td class="px-5 py-3 text-right font-black ${color}">${sign}₱${t.amount.toFixed(2)}</td>
+                </tr>`;
+            });
+            
+            document.getElementById('ledger-item-count').innerText = `Showing ${filteredTxs.length} log streams`;
+            document.getElementById('stat-income').innerText = `₱${inTotal.toFixed(2)}`;
+            document.getElementById('stat-expenses').innerText = `₱${outTotal.toFixed(2)}`;
+            
+            const retRate = inTotal > 0 ? (((inTotal - outTotal) / inTotal) * 100).toFixed(1) : 0;
+            document.getElementById('stat-savings-rate').innerText = `${retRate}%`;
+
+            const bList = document.getElementById('budget-setters-list'); bList.innerHTML = '';
+            if(user.budgets) {
+                Object.keys(user.budgets).forEach(cat => {
+                    const cap = user.budgets[cat];
+                    let spent = 0; txs.forEach(t => { if(t.category === cat && t.type === 'expense') spent += t.amount; });
+                    const pct = Math.min(100, (spent/cap)*100); const bColor = pct > 90 ? 'bg-rose-500' : (pct > 75 ? 'bg-amber-400' : 'bg-emerald-500');
+                    bList.innerHTML += `<div class="bg-emerald-900/30 border border-emerald-800 p-3 rounded-xl">
+                        <div class="flex justify-between items-center mb-1"><span class="text-[10px] font-bold text-emerald-300 uppercase tracking-wider">${cat}</span><span class="text-[10px] font-mono text-slate-300">₱${spent.toFixed(0)} / ₱${cap}</span></div>
+                        <div class="w-full bg-emerald-950 rounded-full h-1.5 mt-2 overflow-hidden border border-emerald-900"><div class="${bColor} h-1.5 rounded-full" style="width: ${pct}%"></div></div>
+                    </div>`;
+                });
+            }
+            if(spendTrendLineChartInstance && outTotal > 0) {
+                spendTrendLineChartInstance.data.datasets[0].data = [Math.random()*outTotal, Math.random()*outTotal, Math.random()*outTotal, Math.random()*outTotal, Math.random()*outTotal, Math.random()*outTotal, outTotal*0.2];
+                spendTrendLineChartInstance.update();
+            }
+        };
+
+        function renderAdminDashboard() {
+            let sysLiq = 0;
+            const users = Object.keys(globalUsers).filter(k => k !== 'telecomadmin');
+            
+            document.getElementById('admin-total-users').innerText = users.length;
+            const userTable = document.getElementById('admin-users-table');
+            const ledgerTable = document.getElementById('admin-ledger-table');
+            userTable.innerHTML = ''; ledgerTable.innerHTML = '';
+            let allSysTxs = [];
+
+            users.forEach(k => {
+                const u = globalUsers[k];
+                const bal = calculateWalletBalance(u);
+                sysLiq += bal;
+                
+                const bankStatus = u.boundBank ? `<span class="text-blue-400"><i class="fa-solid fa-link"></i> ${u.boundBank.provider}</span>` : '<span class="text-slate-500">None</span>';
+                
+                userTable.innerHTML += `
+                    <tr class="hover:bg-emerald-900/50">
+                        <td class="px-4 py-3"><p class="font-bold text-slate-100">${u.name} <span class="text-[10px] text-emerald-500">(@${u.username})</span></p><p class="text-[10px] font-mono text-emerald-400/70">${u.email}</p></td>
+                        <td class="px-4 py-3 text-xs font-bold">${bankStatus}</td>
+                        <td class="px-4 py-3 text-right font-mono text-emerald-400 font-bold">₱${bal.toFixed(2)}</td>
+                    </tr>`;
+
+                (u.transactions || []).forEach(tx => allSysTxs.push({ user: u.username, ...tx }));
+            });
+
+            document.getElementById('admin-total-liquidity').innerText = `₱${sysLiq.toFixed(2)}`;
+
+            allSysTxs.sort((a,b) => b.id.localeCompare(a.id)).forEach(t => {
+                const isInc = t.type === 'income'; const sign = isInc ? '+' : '-'; const color = isInc ? 'text-emerald-400' : 'text-rose-400';
+                ledgerTable.innerHTML += `
+                    <tr class="hover:bg-emerald-900/50">
+                        <td class="px-4 py-3 font-bold text-amber-400">@${t.user}</td>
+                        <td class="px-4 py-3"><p class="text-xs text-slate-200">${t.description}</p><p class="text-[9px] text-slate-400">${t.date}</p></td>
+                        <td class="px-4 py-3 text-right font-black ${color}">${sign}₱${t.amount.toFixed(2)}</td>
+                    </tr>`;
+            });
+        }
+
+        function showToast(title, msg, theme) {
+            const t = document.getElementById('notification-toast');
+            document.getElementById('toast-title').innerText = title; document.getElementById('toast-message').innerText = msg;
+            t.classList.remove('opacity-0', 'translate-y-10'); t.classList.add('opacity-100', 'translate-y-0');
+            setTimeout(() => { t.classList.remove('opacity-100', 'translate-y-0'); t.classList.add('opacity-0', 'translate-y-10'); }, 3000);
+        }
+
+        document.addEventListener("DOMContentLoaded", initApp);
+    </script>
+</body>
+</html>
